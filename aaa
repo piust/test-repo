@@ -1,0 +1,25 @@
+library(dplyr)
+plot1 <- function(){
+    ## Directory to store the data
+    data_dir <- "data"
+    ## The actual date
+    date <- Sys.Date()
+    ## The URL containing the data
+    download_url <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+    ## The file containing the data
+    data_file <- file.path(data_dir,"household_power_consumption.txt")
+    ## The name og the zip file
+    zip_file <- file.path(data_dir,paste0("project_",date,".zip"))
+    if(!file.exists(data_dir)){dir.create(data_dir)}
+    if(!file.exists(zip_file)){
+        download.file(download_url, zip_file)
+        unzip(zip_file,exdir = data_dir)    
+    }
+    
+    data <- read.delim("data/household_power_consumption.txt", sep = ";", header = TRUE, na.strings = "?")
+    data$Date <- as.Date(data$Date, format="%d/%m/%Y")
+    data
+    
+    
+}
+
